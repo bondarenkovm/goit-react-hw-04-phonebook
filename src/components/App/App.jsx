@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // import { Component } from 'react';
 import { Container } from './App.styled';
 import { ContactForm } from 'components/ContactForm';
@@ -7,16 +7,31 @@ import { ContactList } from 'components/ContactList';
 // import { testContacts } from 'data';
 import { Toaster } from 'react-hot-toast';
 import { toast } from 'react-hot-toast';
+import { useLocalStorage } from 'hooks';
+
+// function useLocalStorage(key, defaultArray) {
+//   const [state, setState] = useState(
+//     () => JSON.parse(window.localStorage.getItem(key)) ?? defaultArray
+//   );
+
+//   useEffect(() => {
+//     window.localStorage.setItem(key, JSON.stringify(state));
+//   }, [key, state]);
+
+//   return [state, setState];
+// }
 
 function App() {
-  const [contacts, setContacts] = useState(
-    JSON.parse(window.localStorage.getItem('contacts')) ?? []
-  );
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
+
+  // const [contacts, setContacts] = useState(
+  //   () => JSON.parse(window.localStorage.getItem('contacts')) ?? []
+  // );
   const [filter, setfilter] = useState('');
 
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
   function formSubmitHandler(data) {
     if (contacts.find(contact => contact.name === data.name)) {
