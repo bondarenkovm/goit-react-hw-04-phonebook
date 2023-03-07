@@ -26,6 +26,15 @@ const FormSchema = Yup.object().shape({
 });
 
 const ContactForm = ({ formSubmit }) => {
+  const handleSubmit = (values, { resetForm }) => {
+    // console.log(values);
+    formSubmit({
+      id: nanoid(5),
+      ...values,
+    });
+    resetForm();
+  };
+
   return (
     <Formik
       initialValues={{
@@ -33,14 +42,7 @@ const ContactForm = ({ formSubmit }) => {
         number: '',
       }}
       validationSchema={FormSchema}
-      onSubmit={(values, { resetForm }) => {
-        // console.log(values);
-        formSubmit({
-          id: nanoid(5),
-          ...values,
-        });
-        resetForm();
-      }}
+      onSubmit={handleSubmit}
     >
       <Form>
         <Label htmlFor="name">
