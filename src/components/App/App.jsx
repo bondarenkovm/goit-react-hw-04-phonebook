@@ -1,34 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import { Component } from 'react';
 import { Container } from './App.styled';
 import { ContactForm } from 'components/ContactForm';
 import { Filter } from 'components/Filter';
 import { ContactList } from 'components/ContactList';
-import { testContacts } from 'data';
+// import { testContacts } from 'data';
 import { Toaster } from 'react-hot-toast';
 import { toast } from 'react-hot-toast';
 
 function App() {
-  const [contacts, setContacts] = useState(testContacts);
+  const [contacts, setContacts] = useState(
+    JSON.parse(window.localStorage.getItem('contacts')) ?? []
+  );
   const [filter, setfilter] = useState('');
 
-  // componentDidMount() {
-  //   const contact = JSON.parse(localStorage.getItem('contacts'));
-  //   // console.log(contact);
-  //   if (contact !== null) {
-  //     this.setState({ contacts: contact });
-  //   } else {
-  //     this.setState({
-  //       contacts: [],
-  //       // contacts: testContacts,
-  //     });
-  //   }
-  // }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  //   }
-  // }
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   function formSubmitHandler(data) {
     if (contacts.find(contact => contact.name === data.name)) {
